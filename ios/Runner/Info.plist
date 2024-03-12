@@ -41,6 +41,8 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Preciso acessar a geoLocator</string>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
