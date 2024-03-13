@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:rmcheckin/app/models/model.dart';
 import 'package:rmcheckin/app/models/motorista_auth_model.dart';
@@ -14,7 +15,6 @@ import 'package:rmcheckin/app/services/status_service.dart';
 import 'package:rmcheckin/app/shared/theme/colors_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
-
 final notificationHandler = FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
@@ -73,14 +73,11 @@ void callbackDispatcher() {
           ),
         );
       }
-
       debugPrint("BG task $task end.");
-
       return Future.value(true);
     },
   );
 }
-
 Future<void> initializeNotifications() async {
   await notificationHandler.initialize(
     const InitializationSettings(
@@ -112,7 +109,6 @@ Future<void> initializeNotifications() async {
     "atualizarCheckinsTaskOnce",
   );
 }
-
 main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   final bool hasUser = await verificarUser();
@@ -124,6 +120,7 @@ main() async {
       hasUser: hasUser,
     ),
   );
+ 
 }
 
 class MyApp extends StatefulWidget {

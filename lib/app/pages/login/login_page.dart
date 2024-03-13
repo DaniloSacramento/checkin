@@ -41,33 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   String errorMessage = '';
   final _formKey = GlobalKey<FormState>();
   final senhaController = TextEditingController();
-  bool validarSenha(String senha) {
-    if (senha.length < 6) {
-      return false;
-    }
-
-    if (!senha.contains(RegExp(r'\d'))) {
-      return false;
-    }
-
-    if (!senha.contains(RegExp(r'[A-Z]'))) {
-      return false;
-    }
-
-    if (!senha.contains(RegExp(r'[a-z]'))) {
-      return false;
-    }
-
-    if (!senha.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'))) {
-      return false;
-    }
-
-    if (senha.contains(RegExp(r'\s'))) {
-      return false;
-    }
-
-    return true;
-  }
+ 
 
   bool isCPFValid(String cpf) {
     if (cpf == null || cpf.isEmpty) {
@@ -152,9 +126,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: telaHeight * 0.02,
                 ),
-
-               
-
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: TextFormField(
@@ -225,8 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira uma senha.';
                     }
-                    
-                
+                    return null;
                   },
                   ),
                 ),
@@ -295,7 +265,7 @@ if (_formKey.currentState!.validate()) {
   int statusCode = await login(
     cpfController.text,
     senhaController.text,
-    // telefoneController.text,
+   
   );
 
   if (!currentFocus.hasPrimaryFocus) {

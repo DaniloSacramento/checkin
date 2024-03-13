@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rmcheckin/app/pages/register/register_data/register_data.dart';
-import 'package:rmcheckin/app/pages/register/register_email/erro_page.dart';
 import 'package:rmcheckin/app/services/verificar_cpf_service.dart';
 import 'package:rmcheckin/app/widget/app_color.dart';
 

@@ -3,9 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rmcheckin/app/models/motorista_auth_model.dart';
 import 'package:rmcheckin/app/pages/alterar_dados/alterar_dados_sucesso.dart';
 import 'package:rmcheckin/app/services/redefine_dados_service.dart';
@@ -148,24 +146,6 @@ class _AlterarDadosPageState extends State<AlterarDadosPage> {
                                       ),
                                     ),
                             ),
-                            // Positioned(
-                            //   bottom: 10,
-                            //   left: 130,
-                            //   child: Container(
-                            //     width: 40,
-                            //     height: 40,
-                            //     decoration: BoxDecoration(
-                            //       shape: BoxShape.circle,
-                            //       color: Colors.yellow[600], // Cor de fundo amarela
-                            //     ),
-                            //     child: IconButton(
-                            //       onPressed: () async {
-                            //         _showOpcoesBottomSheet();
-                            //       },
-                            //       icon: const Icon(Icons.camera_alt),
-                            //     ),
-                            //   ),
-                            // )
                           ],
                         ),
                       ),
@@ -345,9 +325,7 @@ class _AlterarDadosPageState extends State<AlterarDadosPage> {
                                   builder: (context) => AlterarDadosSucesso(),
                                 ),
                               );
-                            } else {
-                              // Handle error message display here
-                              // ignore: use_build_context_synchronously
+                            } else {                            
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Erro ao atualizar os dados do usuário.'),
@@ -375,7 +353,6 @@ class _AlterarDadosPageState extends State<AlterarDadosPage> {
       ),
     );
   }
-
   void _showOpcoesBottomSheet() {
     showModalBottomSheet(
       context: context,

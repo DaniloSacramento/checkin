@@ -165,9 +165,9 @@ class _RegisterCodigoState extends State<RegisterCodigo> {
                         tipoValidacao: "sms",
                       );
                     },
-                    duration: 60,
+                    duration: 300,
                     text: Text(
-                      'Reenviar codigo',
+                      'Reenviar sms',
                       style: GoogleFonts.dosis(
                         textStyle: const TextStyle(
                           color: Colors.black,

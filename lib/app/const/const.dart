@@ -1,5 +1,5 @@
 class ConstsApi {
- // static const String baseUrl = 'http://acesso.triviacloud.com.br';
+  //static const String baseUrl = 'http://acesso.triviacloud.com.br';
   static const String baseUrl = 'http://177.207.241.213:8090';
   //static const String baseUrl = 'http://192.168.15.160:8090';
   static const String motoristaAuth = '$baseUrl/api/auth/motorista';

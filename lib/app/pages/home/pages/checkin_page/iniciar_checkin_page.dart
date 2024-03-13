@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rmcheckin/app/const/const.dart';
 import 'package:rmcheckin/app/models/loja_model.dart';
 import 'package:rmcheckin/app/models/motorista_auth_model.dart';
-
 import 'package:rmcheckin/app/pages/home/pages/checkin_page/selecionar_veiculo_page.dart';
 import 'package:rmcheckin/app/widget/app_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,11 +45,11 @@ class _IniciarCheckinState extends State<IniciarCheckin> {
       (timeStamp) async {
         await motoristaUser();
         setState(() {
-          _isLoading = true; // Definindo como true antes de chamar a API
+          _isLoading = true;
         });
         await _realizarCheckin();
         setState(() {
-          _isLoading = false; // Definindo como false após a chamada da API
+          _isLoading = false;
         });
       },
     );

@@ -8,10 +8,10 @@ import 'package:rmcheckin/app/services/esqueci_senha_validar_token.dart';
 import 'package:rmcheckin/app/widget/app_color.dart';
 
 class EsqueciSenhaSMS extends StatefulWidget {
-  final String telefone;
+  final String cpf;
   const EsqueciSenhaSMS({
     Key? key,
-    required this.telefone,
+    required this.cpf,
   }) : super(key: key);
 
   @override
@@ -124,7 +124,6 @@ class _EsqueciSenhaSMSState extends State<EsqueciSenhaSMS> {
                   isCodeComplete = code.length == 6;
                 });
               },
-              // onCompleted: (pin) => print(pin),
             ),
             const SizedBox(
               height: 15,
@@ -140,9 +139,9 @@ class _EsqueciSenhaSMSState extends State<EsqueciSenhaSMS> {
                   backgroundColor: yellowColor,
                   controller: controller,
                   onPressed: () {},
-                  duration: 60,
+                  duration: 300,
                   text: Text(
-                    'Reenviar codigo',
+                    'Reenviar sms',
                     style: GoogleFonts.dosis(
                       textStyle: const TextStyle(
                         color: Colors.black,
@@ -166,10 +165,10 @@ class _EsqueciSenhaSMSState extends State<EsqueciSenhaSMS> {
                       ),
                       onPressed: () async {
                         try {
-                          apiResponse = await EsqueciSenhaDataSorceSMSValidarToken().esqueciSenhaService(telefone: widget.telefone, token: otpController.text);
+                          apiResponse = await EsqueciSenhaDataSorceSMSValidarToken().esqueciSenhaService(cpf: widget.cpf, token: otpController.text);
                           if (apiResponse!['data'] == 'ok') {
                             apiSuccess = true;
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AdicionarNovaSenha()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AdicionarNovaSenha(cpf: widget.cpf)));
                           } else {
                             setState(() {
                               errorMessage = apiResponse!['errors'][0];

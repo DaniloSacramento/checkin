@@ -180,7 +180,7 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira uma senha.';
                     }
-                    
+                    return null;
                 
                   },
                         obscureText: _showPassword == false ? true : false,
@@ -217,8 +217,10 @@ class _AlterarSenhaState extends State<AlterarSenha> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira uma senha.';
                     }
-                    
-                
+                     if (_validatePasswordMatch(value) != null) {
+                        return 'Senhas diferentes';
+                      }
+                return null;
                   },
                     obscureText: _showPassword == false ? true : false,
                     cursorColor: Colors.black,

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:rmcheckin/app/const/const.dart';
 
 class EsqueciSenhaDataSorceSMS {
-  Future<Map<String, dynamic>> esqueciSenhaService({required String telefone}) async {
+  Future<Map<String, dynamic>> esqueciSenhaService({required String cpf}) async {
     var url = Uri.parse(ConstsApi.esqueciMinhaSenha);
     var response = await http.post(
       url,
@@ -14,7 +14,7 @@ class EsqueciSenhaDataSorceSMS {
       },
       body: jsonEncode(
         <String, String>{
-          'telefone': telefone,
+          'cpf': cpf,
         },
       ),
     );

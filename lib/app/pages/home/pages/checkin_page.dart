@@ -319,25 +319,7 @@ class _CheckinPageState extends State<CheckinPage> {
                         backgroundColor: yellowColor,
                       ),
                       onPressed: () async {
-                        // var listCheckins = (await Checkin().select().toList())
-                        //     .map(
-                        //       (e) => e.id!,
-                        //     )
-                        //     .toList();
-                        // print("botao recarregar");
-                        // print(listCheckins);
-                        // var object = await statusCheckin(
-                        //   cpf: user!.cpf,
-                        //   checkInIds: listCheckins,
-                        // );
-
-                        // print(object);
-                        // setState(() {});
-                        // // print(object);
-                        // // debugPrint(
-                        // //   "asf: ${JsonEncoder.withIndent("    ").convert(object)}",
-                        // // );
-                        // print("fim botao recarregar");
+          
 
                         _timer.cancel();
                         atualizarTela30s();
@@ -390,106 +372,118 @@ class _CheckinPageState extends State<CheckinPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   pegarIdNf(checkInId);
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: Card(
-                                          elevation: 5,
-                                          child: Container(
-                                            width: double.maxFinite,
-                                            padding: const EdgeInsets.all(16.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(15.0),
-                                              color: Colors.white,
-                                            ),
-                                            child: ListView.builder(
-                                              itemCount: nfCompraSalvos?.length ?? 0,
-                                              itemBuilder: (context, index) {
-                                                if (nfCompraSalvos != null && index < nfCompraSalvos!.length) {
-                                                  final nfCompra = nfCompraSalvos![index];
-                                                  final fornecedorDesc = nfCompra.fornecedorDesc ?? "Nome não disponível";
-                                                  final numNf = nfCompra.numNf;
-                                                  final serieNf = nfCompra.serieNf;
-                                                  final status = nfCompra.statusDesc;
-                                                  return Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Card(
-                                                        elevation: 5,
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.all(16.0),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                loja.toString(),
-                                                                style: TextStyle(
-                                                                  fontSize: 16.0,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: darkBlueColor,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 8),
-                                                              Text(
-                                                                "Fornecedor: $fornecedorDesc",
-                                                                style: TextStyle(
-                                                                  fontSize: 16.0,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: darkBlueColor,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 8),
-                                                              Text(
-                                                                'Número da Nota Fiscal: $numNf - $serieNf',
-                                                                style: TextStyle(
-                                                                  fontSize: 14.0,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: darkBlueColor,
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 8),
-                                                              Text(
-                                                                "Status: $status",
-                                                                style: TextStyle(
-                                                                  fontSize: 14.0,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: darkBlueColor,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                } else {
-                                                  // Handle case where index is out of bounds or nfCompraSalvos is null
-                                                  return const SizedBox.shrink(); // Return an empty SizedBox or another widget
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text(
-                                              'Fechar',
-                                              style: TextStyle(
-                                                color: darkBlueColor,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
+                     showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [  Text(loja.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+                                                    
+          IconButton(
+            color: darkBlueColor,
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+               
+              ListView.builder(
+                shrinkWrap: true, 
+                physics: NeverScrollableScrollPhysics(), // Desativar rolagem do ListView
+                itemCount: nfCompraSalvos?.length ?? 0,
+                itemBuilder: (context, index) {
+                  if (nfCompraSalvos != null && index < nfCompraSalvos!.length) {
+                    final nfCompra = nfCompraSalvos![index];
+                    final fornecedorDesc = nfCompra.fornecedorDesc ?? "Nome não disponível";
+                    final numNf = nfCompra.numNf;
+                    final serieNf = nfCompra.serieNf;
+                    final status = nfCompra.statusDesc;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "$fornecedorDesc",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: darkBlueColor,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  Text('NF',style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: darkBlueColor,
+                                    ),),
+                                  Text(
+                                    '$numNf - $serieNf',
+                                    style: TextStyle(
+                                     fontSize: 16.0,
+                                     
+                                      color: darkBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Status', style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: darkBlueColor,
+                                    ),),
+                                  Text(
+                                    "$status",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      
+                                      color: darkBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (index != nfCompraSalvos!.length - 1) SizedBox(height: 10),
+                        if (index != nfCompraSalvos!.length - 1) Divider(color: Colors.black),
+                      ],
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  },
+);
                                 },
                                 child: Card(
                                   elevation: 5.0,

@@ -64,15 +64,7 @@ class _EsqueciSenhaState extends State<EsqueciSenha> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: yellowColor,
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EsqueciSenhaEmail()));
-                },
-                child: const Text('Redefinir senha por EMAIL')),
+  
           ],
         ),
       ),

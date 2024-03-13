@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:rmcheckin/app/const/const.dart';
 
 class EsqueciSenhaDataSorceSMSValidarToken {
-  Future<Map<String, dynamic>> esqueciSenhaService({required String telefone, required String token}) async {
+  Future<Map<String, dynamic>> esqueciSenhaService({required String cpf, required String token}) async {
     var url = Uri.parse(ConstsApi.esqueciMinhaSenhaToken);
     var response = await http.post(
       url,
@@ -13,7 +13,7 @@ class EsqueciSenhaDataSorceSMSValidarToken {
         'authorization': ConstsApi.basicAuth,
       },
       body: jsonEncode(
-        <String, String>{'telefone': telefone, 'token': token},
+        <String, String>{'cpf': cpf, 'token': token},
       ),
     );
     if (response.statusCode == 200) {
