@@ -60,19 +60,19 @@ class _CheckinPageState extends State<CheckinPage> {
       user = Motorista.fromMap(jsonDecode(result));
     }
 
-   if (user?.foto != null ) {
-    
-    setState(() {});
-    await atualizarTela30s();
-  } else {
-    
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TelaCadastroFoto(), // Substitua TelaCadastroFoto() pela tela real
-      ),
-    );
-  }
+  // if (user?.foto != null ) {
+  //  
+  //  setState(() {});
+ ///   await atualizarTela30s();
+ // } else {
+ //   
+ //   Navigator.pushReplacement(
+   //   context,
+    //  MaterialPageRoute(
+    //    builder: (context) => TelaCadastroFoto(), // Substitua TelaCadastroFoto() pela tela real
+   //   ),
+  //  );
+ // }
 }
   Future<void> atualizarTela30s() async {
     _timer = Timer.periodic(
