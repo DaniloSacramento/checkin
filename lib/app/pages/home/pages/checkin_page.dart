@@ -26,6 +26,7 @@ class CheckinPage extends StatefulWidget {
 }
 
 class _CheckinPageState extends State<CheckinPage> {
+  @override
   Motorista? user;
   late Timer _timer;
   bool isLoading = true;
@@ -44,7 +45,7 @@ class _CheckinPageState extends State<CheckinPage> {
         await MyDbModel().initializeDB();
         await _motoristaUser();
         await apagarCheckinsAntigos();
-        _initializeDataAtual();
+
         await atualizarTela30s();
         setState(() {});
       },
@@ -59,21 +60,19 @@ class _CheckinPageState extends State<CheckinPage> {
     } else {
       user = Motorista.fromMap(jsonDecode(result));
     }
+    if (user?.foto != '') {
+      setState(() {});
+      await atualizarTela30s();
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TelaCadastroFoto(),
+        ),
+      );
+    }
+  }
 
-  // if (user?.foto != null ) {
-  //  
-  //  setState(() {});
- ///   await atualizarTela30s();
- // } else {
- //   
- //   Navigator.pushReplacement(
-   //   context,
-    //  MaterialPageRoute(
-    //    builder: (context) => TelaCadastroFoto(), // Substitua TelaCadastroFoto() pela tela real
-   //   ),
-  //  );
- // }
-}
   Future<void> atualizarTela30s() async {
     _timer = Timer.periodic(
       const Duration(seconds: 2),
@@ -160,11 +159,6 @@ class _CheckinPageState extends State<CheckinPage> {
     super.dispose();
   }
 
-  void _initializeDataAtual() {
-    DateTime now = DateTime.now();
-    dataAtual = DateFormat('dd/MM/yyyy').format(now);
-  }
-
   @override
   Widget build(BuildContext context) {
     double telaHeight = MediaQuery.of(context).size.height;
@@ -203,10 +197,6 @@ class _CheckinPageState extends State<CheckinPage> {
                     style: GoogleFonts.dosis(
                       textStyle: TextStyle(fontSize: 26, color: darkBlueColor, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Text(
-                    'Checkin em $dataAtual',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -287,10 +277,6 @@ class _CheckinPageState extends State<CheckinPage> {
                       textStyle: TextStyle(fontSize: 26, color: darkBlueColor, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text(
-                    'Checkin em $dataAtual',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
                 ],
               ),
               Row(
@@ -319,8 +305,6 @@ class _CheckinPageState extends State<CheckinPage> {
                         backgroundColor: yellowColor,
                       ),
                       onPressed: () async {
-          
-
                         _timer.cancel();
                         atualizarTela30s();
                       },
@@ -372,118 +356,123 @@ class _CheckinPageState extends State<CheckinPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   pegarIdNf(checkInId);
-                     showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [  Text(loja.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                                                    
-          IconButton(
-            color: darkBlueColor,
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-      content: SingleChildScrollView(
-        child: Container(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-               
-              ListView.builder(
-                shrinkWrap: true, 
-                physics: NeverScrollableScrollPhysics(), // Desativar rolagem do ListView
-                itemCount: nfCompraSalvos?.length ?? 0,
-                itemBuilder: (context, index) {
-                  if (nfCompraSalvos != null && index < nfCompraSalvos!.length) {
-                    final nfCompra = nfCompraSalvos![index];
-                    final fornecedorDesc = nfCompra.fornecedorDesc ?? "Nome não disponível";
-                    final numNf = nfCompra.numNf;
-                    final serieNf = nfCompra.serieNf;
-                    final status = nfCompra.statusDesc;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "$fornecedorDesc",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: darkBlueColor,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-
-                                  Text('NF',style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: darkBlueColor,
-                                    ),),
-                                  Text(
-                                    '$numNf - $serieNf',
-                                    style: TextStyle(
-                                     fontSize: 16.0,
-                                     
-                                      color: darkBlueColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Status', style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: darkBlueColor,
-                                    ),),
-                                  Text(
-                                    "$status",
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      
-                                      color: darkBlueColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (index != nfCompraSalvos!.length - 1) SizedBox(height: 10),
-                        if (index != nfCompraSalvos!.length - 1) Divider(color: Colors.black),
-                      ],
-                    );
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  },
-);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16.0),
+                                        ),
+                                        title: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              loja.toString(),
+                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                            IconButton(
+                                              color: darkBlueColor,
+                                              icon: Icon(Icons.close),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        content: SingleChildScrollView(
+                                          child: Container(
+                                            width: double.maxFinite,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics: NeverScrollableScrollPhysics(), // Desativar rolagem do ListView
+                                                  itemCount: nfCompraSalvos?.length ?? 0,
+                                                  itemBuilder: (context, index) {
+                                                    if (nfCompraSalvos != null && index < nfCompraSalvos!.length) {
+                                                      final nfCompra = nfCompraSalvos![index];
+                                                      final fornecedorDesc = nfCompra.fornecedorDesc ?? "Nome não disponível";
+                                                      final numNf = nfCompra.numNf;
+                                                      final serieNf = nfCompra.serieNf;
+                                                      final status = nfCompra.statusDesc;
+                                                      return Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(10.0),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  "$fornecedorDesc",
+                                                                  style: TextStyle(
+                                                                    fontSize: 18.0,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    color: darkBlueColor,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(height: 8),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      'NF',
+                                                                      style: TextStyle(
+                                                                        fontSize: 18.0,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        color: darkBlueColor,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      '$numNf - $serieNf',
+                                                                      style: TextStyle(
+                                                                        fontSize: 16.0,
+                                                                        color: darkBlueColor,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const SizedBox(height: 8),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Status',
+                                                                      style: TextStyle(
+                                                                        fontSize: 18.0,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        color: darkBlueColor,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      "$status",
+                                                                      style: TextStyle(
+                                                                        fontSize: 16.0,
+                                                                        color: darkBlueColor,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          if (index != nfCompraSalvos!.length - 1) SizedBox(height: 10),
+                                                          if (index != nfCompraSalvos!.length - 1) Divider(color: Colors.black),
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      return SizedBox.shrink();
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 child: Card(
                                   elevation: 5.0,
@@ -581,7 +570,7 @@ class _CheckinPageState extends State<CheckinPage> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      calcularDiferencaHorasMinutos(dtChegada.toString(), dtEntrada as String?),
+                                                      calcularDiferencaHorasMinutos(dtChegada.toString(), dtEntrada.toString()),
                                                     ),
                                                     const SizedBox(
                                                       height: 12,
